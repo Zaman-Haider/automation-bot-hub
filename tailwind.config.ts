@@ -14,8 +14,8 @@ export default {
     },
     extend: {
       fontFamily: {
-        display: ['Orbitron', 'sans-serif'],
-        body: ['Inter', 'sans-serif'],
+        display: ['Michroma', 'sans-serif'],
+        body: ['DM Serif Text', 'serif'],
       },
       colors: {
         border: "hsl(var(--border))",

@@ -1,44 +1,97 @@
-import { motion } from 'framer-motion';
-import { ArrowRight, Bot, Sparkles, Zap } from 'lucide-react';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { ArrowRight, Bot, Sparkles, Zap, CircuitBoard, Cpu } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useRef } from 'react';
 
 const HeroSection = () => {
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start start", "end start"]
+  });
+  
+  const y = useTransform(scrollYProgress, [0, 1], [0, 200]);
+  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+
+  const floatingIcons = [
+    { Icon: Bot, delay: 0, x: -120, y: -80 },
+    { Icon: Zap, delay: 0.2, x: 140, y: -60 },
+    { Icon: CircuitBoard, delay: 0.4, x: -160, y: 80 },
+    { Icon: Cpu, delay: 0.6, x: 180, y: 100 },
+  ];
+
   return (
-    <section className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
+    <section ref={ref} className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
+      {/* Animated Background Orbs */}
+      <motion.div 
+        className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-primary/20 rounded-full blur-[120px]"
+        animate={{ 
+          scale: [1, 1.2, 1],
+          opacity: [0.3, 0.5, 0.3],
+        }}
+        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+      />
+      <motion.div 
+        className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-secondary/20 rounded-full blur-[100px]"
+        animate={{ 
+          scale: [1.2, 1, 1.2],
+          opacity: [0.3, 0.5, 0.3],
+        }}
+        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+      />
+
       {/* Hero Content */}
-      <div className="container mx-auto px-4 relative z-10">
-        <div className="max-w-5xl mx-auto text-center">
+      <motion.div style={{ y, opacity }} className="container mx-auto px-4 relative z-10">
+        <div className="max-w-6xl mx-auto text-center">
           {/* Badge */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-card neon-border mb-8"
+            initial={{ opacity: 0, y: 30, scale: 0.9 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 0.6, type: "spring" }}
+            className="inline-flex items-center gap-3 px-6 py-3 rounded-full glass-card neon-border mb-10"
           >
-            <Sparkles className="w-4 h-4 text-primary" />
-            <span className="text-sm font-medium text-muted-foreground">
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+            >
+              <Sparkles className="w-5 h-5 text-primary" />
+            </motion.div>
+            <span className="font-body text-base text-muted-foreground">
               50+ Custom Automation Bots Available
             </span>
           </motion.div>
 
           {/* Main Heading */}
           <motion.h1
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="font-display text-4xl sm:text-5xl md:text-7xl font-bold leading-tight mb-6"
+            transition={{ duration: 0.8, delay: 0.1, type: "spring" }}
+            className="font-display text-5xl sm:text-6xl md:text-8xl font-bold leading-[1.1] mb-8 tracking-wide"
           >
-            <span className="text-foreground">Automate Your</span>
-            <br />
-            <span className="text-gradient">Business Workflow</span>
+            <motion.span 
+              className="block text-foreground"
+              initial={{ opacity: 0, x: -30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
+              Automate Your
+            </motion.span>
+            <motion.span 
+              className="block text-gradient mt-2"
+              initial={{ opacity: 0, x: 30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+            >
+              Business Workflow
+            </motion.span>
           </motion.h1>
 
           {/* Subtitle */}
           <motion.p
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10"
+            transition={{ duration: 0.7, delay: 0.5 }}
+            className="font-body text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto mb-12 leading-relaxed"
           >
             From lead generation to customer support, we build intelligent automation bots
             that save time, reduce costs, and scale your business operations effortlessly.
@@ -48,35 +101,39 @@ const HeroSection = () => {
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-4"
+            transition={{ duration: 0.7, delay: 0.6 }}
+            className="flex flex-col sm:flex-row items-center justify-center gap-5"
           >
-            <Button 
-              size="lg" 
-              className="bg-primary text-primary-foreground hover:bg-primary/90 glow-cyan font-semibold text-lg px-8 py-6 group"
-              asChild
-            >
-              <a href="#contact">
-                Get Free Consultation
-                <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </a>
-            </Button>
-            <Button 
-              size="lg" 
-              variant="outline" 
-              className="border-border hover:border-primary hover:text-primary font-semibold text-lg px-8 py-6"
-              asChild
-            >
-              <a href="#services">Explore Services</a>
-            </Button>
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }}>
+              <Button 
+                size="lg" 
+                className="bg-gradient-to-r from-primary to-secondary text-primary-foreground hover:opacity-90 glow-cyan font-display text-base tracking-wider px-10 py-7 group"
+                asChild
+              >
+                <a href="#contact">
+                  Get Free Consultation
+                  <ArrowRight className="ml-3 w-5 h-5 group-hover:translate-x-2 transition-transform" />
+                </a>
+              </Button>
+            </motion.div>
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.98 }}>
+              <Button 
+                size="lg" 
+                variant="outline" 
+                className="border-2 border-border hover:border-primary hover:text-primary font-display text-base tracking-wider px-10 py-7 backdrop-blur-sm"
+                asChild
+              >
+                <a href="#services">Explore Services</a>
+              </Button>
+            </motion.div>
           </motion.div>
 
           {/* Stats */}
           <motion.div
-            initial={{ opacity: 0, y: 40 }}
+            initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.5 }}
-            className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-16 md:mt-24"
+            transition={{ duration: 0.8, delay: 0.8 }}
+            className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-20 md:mt-28"
           >
             {[
               { value: '50+', label: 'Bot Types' },
@@ -86,41 +143,83 @@ const HeroSection = () => {
             ].map((stat, i) => (
               <motion.div
                 key={stat.label}
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.4, delay: 0.6 + i * 0.1 }}
-                className="glass-card rounded-xl p-4 md:p-6 neon-border"
+                initial={{ opacity: 0, scale: 0.8, y: 30 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.9 + i * 0.1, type: "spring" }}
+                whileHover={{ scale: 1.08, y: -5 }}
+                className="glass-card rounded-2xl p-6 md:p-8 neon-border group cursor-default"
               >
-                <div className="font-display text-2xl md:text-3xl font-bold text-primary mb-1">
+                <motion.div 
+                  className="font-display text-3xl md:text-4xl font-bold text-gradient mb-2"
+                  animate={{ 
+                    textShadow: ["0 0 20px rgba(0,255,255,0)", "0 0 20px rgba(0,255,255,0.5)", "0 0 20px rgba(0,255,255,0)"]
+                  }}
+                  transition={{ duration: 2, repeat: Infinity, delay: i * 0.3 }}
+                >
                   {stat.value}
-                </div>
-                <div className="text-sm text-muted-foreground">{stat.label}</div>
+                </motion.div>
+                <div className="font-body text-sm md:text-base text-muted-foreground">{stat.label}</div>
               </motion.div>
             ))}
           </motion.div>
         </div>
 
         {/* Floating Bot Icons */}
-        <motion.div
-          className="absolute top-32 left-10 hidden lg:block"
-          animate={{ y: [0, -15, 0] }}
-          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-        >
-          <div className="glass-card p-4 rounded-2xl glow-cyan">
-            <Bot className="w-8 h-8 text-primary" />
-          </div>
-        </motion.div>
+        {floatingIcons.map(({ Icon, delay, x, y }, index) => (
+          <motion.div
+            key={index}
+            className="absolute top-1/2 left-1/2 hidden lg:block"
+            initial={{ opacity: 0, scale: 0 }}
+            animate={{ 
+              opacity: 1, 
+              scale: 1,
+              x: x,
+              y: y,
+            }}
+            transition={{ 
+              duration: 0.8, 
+              delay: 1 + delay,
+              type: "spring"
+            }}
+          >
+            <motion.div
+              animate={{ 
+                y: [0, -20, 0],
+                rotate: [0, 5, -5, 0],
+              }}
+              transition={{ 
+                duration: 5 + index, 
+                repeat: Infinity, 
+                ease: "easeInOut",
+                delay: delay 
+              }}
+              className={`glass-card p-5 rounded-2xl ${index % 2 === 0 ? 'glow-cyan' : 'glow-purple'}`}
+            >
+              <Icon className={`w-8 h-8 ${index % 2 === 0 ? 'text-primary' : 'text-secondary'}`} />
+            </motion.div>
+          </motion.div>
+        ))}
+      </motion.div>
 
+      {/* Scroll Indicator */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.5 }}
+        className="absolute bottom-10 left-1/2 -translate-x-1/2"
+      >
         <motion.div
-          className="absolute top-48 right-16 hidden lg:block"
-          animate={{ y: [0, 20, 0] }}
-          transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+          animate={{ y: [0, 10, 0] }}
+          transition={{ duration: 1.5, repeat: Infinity }}
+          className="w-6 h-10 rounded-full border-2 border-muted-foreground/50 flex items-start justify-center p-2"
         >
-          <div className="glass-card p-4 rounded-2xl glow-purple">
-            <Zap className="w-8 h-8 text-secondary" />
-          </div>
+          <motion.div
+            animate={{ y: [0, 12, 0], opacity: [1, 0.3, 1] }}
+            transition={{ duration: 1.5, repeat: Infinity }}
+            className="w-1.5 h-3 bg-primary rounded-full"
+          />
         </motion.div>
-      </div>
+      </motion.div>
     </section>
   );
 };
