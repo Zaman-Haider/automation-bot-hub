@@ -3,7 +3,7 @@ import { Bot, Heart } from 'lucide-react';
 
 const Footer = () => {
   return (
-    <footer className="relative py-12 border-t border-border">
+    <footer className="relative py-12 border-t border-border hidden">
       <div className="container mx-auto px-4">
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
           {/* Logo */}

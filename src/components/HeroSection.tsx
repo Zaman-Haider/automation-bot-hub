@@ -25,24 +25,19 @@ const HeroSection = () => {
       {/* Animated Background Orbs */}
       <motion.div 
         className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-primary/20 rounded-full blur-[120px]"
-        animate={{ 
-          scale: [1, 1.2, 1],
-          opacity: [0.3, 0.5, 0.3],
-        }}
+        animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
         transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
       />
       <motion.div 
         className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-secondary/20 rounded-full blur-[100px]"
-        animate={{ 
-          scale: [1.2, 1, 1.2],
-          opacity: [0.3, 0.5, 0.3],
-        }}
+        animate={{ scale: [1.2, 1, 1.2], opacity: [0.3, 0.5, 0.3] }}
         transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
       />
 
       {/* Hero Content */}
-      <motion.div style={{ y, opacity }} className="container mx-auto px-4 relative z-10">
+      <motion.div style={{ y, opacity }} className="container mx-auto px-4 py-4 relative z-10">
         <div className="max-w-6xl mx-auto text-center">
+          
           {/* Badge */}
           <motion.div
             initial={{ opacity: 0, y: 30, scale: 0.9 }}
@@ -135,7 +130,7 @@ const HeroSection = () => {
             transition={{ duration: 0.8, delay: 0.8 }}
             className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-20 md:mt-28"
           >
-            {[
+            {[ 
               { value: '50+', label: 'Bot Types' },
               { value: '100+', label: 'Happy Clients' },
               { value: '10M+', label: 'Tasks Automated' },
@@ -152,7 +147,7 @@ const HeroSection = () => {
                 <motion.div 
                   className="font-display text-3xl md:text-4xl font-bold text-gradient mb-2"
                   animate={{ 
-                    textShadow: ["0 0 20px rgba(0,255,255,0)", "0 0 20px rgba(0,255,255,0.5)", "0 0 20px rgba(0,255,255,0)"]
+                    textShadow: ["0 0 20px rgba(0,255,255,0)", "0 0 30px rgba(0,255,255,0.6)", "0 0 20px rgba(0,255,255,0)"]
                   }}
                   transition={{ duration: 2, repeat: Infinity, delay: i * 0.3 }}
                 >
@@ -164,41 +159,55 @@ const HeroSection = () => {
           </motion.div>
         </div>
 
-        {/* Floating Bot Icons */}
+        {/* Floating Bot Icons - Upgraded */}
         {floatingIcons.map(({ Icon, delay, x, y }, index) => (
-          <motion.div
-            key={index}
-            className="absolute top-1/2 left-1/2 hidden lg:block"
-            initial={{ opacity: 0, scale: 0 }}
-            animate={{ 
-              opacity: 1, 
-              scale: 1,
-              x: x,
-              y: y,
-            }}
-            transition={{ 
-              duration: 0.8, 
-              delay: 1 + delay,
-              type: "spring"
-            }}
-          >
-            <motion.div
-              animate={{ 
-                y: [0, -20, 0],
-                rotate: [0, 5, -5, 0],
-              }}
-              transition={{ 
-                duration: 5 + index, 
-                repeat: Infinity, 
-                ease: "easeInOut",
-                delay: delay 
-              }}
-              className={`glass-card p-5 rounded-2xl ${index % 2 === 0 ? 'glow-cyan' : 'glow-purple'}`}
-            >
-              <Icon className={`w-8 h-8 ${index % 2 === 0 ? 'text-primary' : 'text-secondary'}`} />
-            </motion.div>
-          </motion.div>
-        ))}
+  <motion.div
+    key={index}
+    className="absolute top-1/2 left-1/2 hidden lg:block"
+    initial={{ opacity: 0, scale: 0 }}
+    animate={{
+      opacity: [0, 0.7, 1], // fade-in smoothly
+      scale: [0, 0.9, 1],   // pop-in effect
+      x: x,
+      y: y,
+    }}
+    transition={{
+      duration: 1,
+      delay: 0.5 + delay,
+      type: "spring" as const,
+      stiffness: 50,
+      damping: 10,
+    }}
+    style={{ pointerEvents: "none" }} // so it doesn't block text
+  >
+    <motion.div
+      animate={{
+        y: [0, -15, 0, 10, 0], // floating effect
+        rotate: [0, 5, -5, 0],  // subtle rotation
+        scale: [1, 1.05, 1],    // slight breathing effect
+        opacity: [0.1, 1, 0.1], // soft flicker
+      }}
+      transition={{
+        duration: 6 + index * 0.5,
+        repeat: Infinity,
+        repeatType: "mirror",
+        ease: "easeInOut",
+        delay: delay,
+      }}
+      className={`glass-card p-4 rounded-2xl backdrop-blur-lg shadow-lg border border-white/20 ${
+        index % 2 === 0 ? "glow-cyan" : "glow-purple"
+      }`}
+      style={{ zIndex: 10 - index }} // depth layering
+    >
+      <Icon
+        className={`w-8 h-8 ${
+          index % 2 === 0 ? "text-primary" : "text-secondary"
+        }`}
+      />
+    </motion.div>
+  </motion.div>
+))}
+
       </motion.div>
 
       {/* Scroll Indicator */}

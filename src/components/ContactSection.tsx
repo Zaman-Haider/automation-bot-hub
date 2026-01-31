@@ -8,7 +8,7 @@ const ContactSection = () => {
   const whatsappLink = `https://wa.me/${whatsappNumber.replace('+', '')}`;
 
   return (
-    <section id="contact" className="relative py-24 md:py-32 bg-card/30">
+    <section id="contact" className="relative py-2 md:py-32 bg-card/30">
       <div className="container mx-auto px-4">
         <div className="max-w-4xl mx-auto">
           {/* Section Header */}
@@ -85,37 +85,7 @@ const ContactSection = () => {
           </div>
 
           {/* Additional Info */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="glass-card rounded-2xl p-8 neon-border"
-          >
-            <div className="grid sm:grid-cols-3 gap-6 text-center">
-              <div>
-                <div className="w-12 h-12 mx-auto rounded-xl bg-primary/10 flex items-center justify-center mb-3">
-                  <Phone className="w-6 h-6 text-primary" />
-                </div>
-                <h4 className="font-semibold text-foreground mb-1">Response Time</h4>
-                <p className="text-sm text-muted-foreground">Within 2 hours</p>
-              </div>
-              <div>
-                <div className="w-12 h-12 mx-auto rounded-xl bg-primary/10 flex items-center justify-center mb-3">
-                  <MapPin className="w-6 h-6 text-primary" />
-                </div>
-                <h4 className="font-semibold text-foreground mb-1">Location</h4>
-                <p className="text-sm text-muted-foreground">Pakistan (Remote Worldwide)</p>
-              </div>
-              <div>
-                <div className="w-12 h-12 mx-auto rounded-xl bg-primary/10 flex items-center justify-center mb-3">
-                  <MessageCircle className="w-6 h-6 text-primary" />
-                </div>
-                <h4 className="font-semibold text-foreground mb-1">Free Consultation</h4>
-                <p className="text-sm text-muted-foreground">No commitment required</p>
-              </div>
-            </div>
-          </motion.div>
+         
         </div>
       </div>
     </section>

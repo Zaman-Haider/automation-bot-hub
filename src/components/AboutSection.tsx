@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { CheckCircle2, Award, Clock, Headphones } from 'lucide-react';
+import zhLogo from '@/assets/projects/zaman.jpeg'; // replace with your actual image
 
 const features = [
   {
@@ -75,17 +76,34 @@ const AboutSection = () => {
             transition={{ duration: 0.6 }}
             className="relative"
           >
-            <div className="glass-card rounded-3xl p-8 neon-border">
+            <div className="glass-card rounded-3xl p-8 neon-border relative z-10">
               <div className="text-center mb-8">
+                {/* Profile Image with Hover Effect */}
                 <motion.div
                   initial={{ scale: 0 }}
                   whileInView={{ scale: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, type: "spring" }}
-                  className="w-24 h-24 mx-auto rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center mb-4"
+                  whileHover={{
+                    scale: 1.3,
+                    y: -40,
+                    boxShadow:
+                      '0 0 40px rgba(0,255,255,0.6), 0 0 80px rgba(0,255,255,0.3), 0 0 120px rgba(0,255,255,0.2)',
+                  }}
+                  whileTap={{
+                    scale: 1.2,
+                    y: -30,
+                    boxShadow:
+                      '0 0 30px rgba(0,255,255,0.6), 0 0 60px rgba(0,255,255,0.3)',
+                  }}
+                  transition={{ duration: 0.5, type: 'spring' }}
+                  className="w-40 h-40 mx-auto rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center mb-4 overflow-hidden cursor-pointer relative z-20"
                 >
-                  <span className="font-display text-3xl font-bold text-primary-foreground">ZH</span>
+                  <img
+                    src={zhLogo}
+                    alt="ZH Logo"
+                    className="w-full h-full object-cover rounded-full"
+                  />
                 </motion.div>
+
                 <h3 className="font-display text-2xl font-bold text-foreground">Syed Zaman Haider</h3>
                 <p className="text-primary font-medium">Automation Expert</p>
               </div>

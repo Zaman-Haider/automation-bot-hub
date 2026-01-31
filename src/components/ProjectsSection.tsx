@@ -121,25 +121,26 @@ const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
+    transition: { staggerChildren: 0.08 },
+  },
+};
+
+import { Variants } from 'framer-motion';
+
+const cardVariants: Variants = {
+  hidden: { opacity: 0, y: 60, rotateX: -15 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    rotateX: 0,
     transition: {
-      staggerChildren: 0.08,
+      type: "spring" as const, // <-- cast to literal
+      stiffness: 100,
+      damping: 15,
     },
   },
 };
 
-const cardVariants = {
-  hidden: { opacity: 0, y: 60, rotateX: -15 },
-  visible: { 
-    opacity: 1, 
-    y: 0, 
-    rotateX: 0,
-    transition: {
-      type: "spring" as const,
-      stiffness: 100,
-      damping: 15,
-    }
-  },
-};
 
 const ProjectsSection = () => {
   return (
@@ -148,17 +149,17 @@ const ProjectsSection = () => {
       <div className="absolute inset-0 bg-gradient-to-b from-background via-card/50 to-background" />
       <div className="absolute top-1/4 left-0 w-96 h-96 bg-primary/10 rounded-full blur-3xl animate-pulse" />
       <div className="absolute bottom-1/4 right-0 w-96 h-96 bg-secondary/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
-      
+
       <div className="container mx-auto px-4 relative z-10">
         {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
+          transition={{ duration: 0.8, ease: 'easeOut' }}
           className="text-center mb-20"
         >
-          <motion.span 
+          <motion.span
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
@@ -175,73 +176,68 @@ const ProjectsSection = () => {
         </motion.div>
 
         {/* Projects Grid */}
-        <motion.div 
+        <motion.div
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
+          viewport={{ once: true, margin: '-100px' }}
           className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
         >
-          {projects.map((project, index) => (
+          {projects.map((project) => (
             <motion.div
               key={project.title}
               variants={cardVariants}
-              whileHover={{ 
-                y: -12, 
-                scale: 1.02,
-                transition: { type: "spring", stiffness: 300 }
+              whileHover={{
+                y: -16,
+                scale: 1.04,
+                rotateY: 3,
+                rotateX: 2,
+                transition: { type: 'spring', stiffness: 300, damping: 20 },
               }}
-              className="group relative rounded-3xl overflow-hidden bg-card border border-border hover:border-primary/50 transition-all duration-500"
-              style={{ perspective: 1000 }}
+              className="group relative rounded-3xl overflow-hidden bg-card border border-border hover:border-transparent hover:shadow-[0_10px_30px_0_rgba(0,255,255,0.2)] transition-all duration-500"
+              style={{ perspective: 1200 }}
             >
-              {/* Image Container */}
-              <div className="relative h-52 overflow-hidden">
-                <motion.img 
-                  src={project.image} 
+              {/* Image */}
+              <div className="relative h-56 overflow-hidden rounded-t-3xl">
+                <motion.img
+                  src={project.image}
                   alt={project.title}
-                  className="w-full h-full object-cover"
-                  whileHover={{ scale: 1.1 }}
-                  transition={{ duration: 0.6 }}
+                  className="w-full h-full object-cover rounded-t-3xl transition-transform duration-700 group-hover:scale-110 group-hover:brightness-110"
                 />
-                {/* Gradient Overlay */}
-                <div className={`absolute inset-0 bg-gradient-to-t from-card via-card/60 to-transparent`} />
-                
-                {/* Category Badge */}
-                <motion.div 
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  className="absolute top-4 left-4"
-                >
-                  <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-full bg-background/80 backdrop-blur-sm border border-border text-xs font-medium`}>
-                    <project.icon className="w-3.5 h-3.5 text-primary" />
-                    <span className="text-foreground">{project.category}</span>
-                  </div>
-                </motion.div>
-
-                {/* Floating Glow */}
-                <div className={`absolute -bottom-10 left-1/2 -translate-x-1/2 w-32 h-32 bg-gradient-to-r ${project.gradient} opacity-40 blur-3xl group-hover:opacity-60 transition-opacity duration-500`} />
+                <div className={`absolute inset-0 bg-gradient-to-t from-card via-card/70 to-transparent`} />
               </div>
-              
+
+              {/* Category Badge */}
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                whileHover={{ scale: 1.1, rotate: -2 }}
+                className="absolute top-4 left-4"
+              >
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-background/90 backdrop-blur-md border border-border text-xs font-medium shadow-sm">
+                  <project.icon className="w-3.5 h-3.5 text-primary" />
+                  <span className="text-foreground">{project.category}</span>
+                </div>
+              </motion.div>
+
+              {/* Card Content */}
               <div className="p-6 relative">
-                {/* Title */}
                 <h3 className="font-display text-xl font-bold text-foreground mb-3 group-hover:text-primary transition-colors duration-300 tracking-wide">
                   {project.title}
                 </h3>
-
-                {/* Description */}
                 <p className="font-body text-muted-foreground text-base mb-5 leading-relaxed">
                   {project.description}
                 </p>
 
                 {/* Metrics */}
-                <div className="flex gap-6 mb-6">
+                <div className="flex flex-wrap gap-4 mb-6">
                   {Object.entries(project.metrics).map(([key, value]) => (
-                    <motion.div 
-                      key={key} 
-                      className="text-center"
+                    <motion.div
+                      key={key}
+                      className="bg-background/30 rounded-xl px-4 py-2 shadow-sm text-center flex-1 min-w-[70px]"
                       whileHover={{ scale: 1.1 }}
                     >
-                      <div className={`font-display text-2xl font-bold bg-gradient-to-r ${project.gradient} bg-clip-text text-transparent`}>
+                      <div className={`font-display text-lg font-bold bg-gradient-to-r ${project.gradient} bg-clip-text text-transparent`}>
                         {value}
                       </div>
                       <div className="text-xs text-muted-foreground capitalize font-medium tracking-wide">{key}</div>
@@ -250,21 +246,21 @@ const ProjectsSection = () => {
                 </div>
 
                 {/* CTA */}
-                <Button 
-                  variant="outline" 
-                  className="w-full border-border hover:border-primary hover:bg-primary/10 hover:text-primary group/btn font-display text-sm tracking-wider transition-all duration-300"
+                <Button
+                  variant="outline"
+                  className="w-full border-2 border-gradient-to-r from-primary to-secondary hover:from-neon-blue hover:to-neon-pink text-primary font-display text-sm tracking-wider transition-all duration-300 py-3"
                   asChild
                 >
-                  <a href="#contact">
+                  <a href="#contact" className="flex items-center justify-center gap-2">
                     Request Similar Bot
-                    <ExternalLink className="w-4 h-4 ml-2 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-0.5 transition-transform" />
+                    <ExternalLink className="w-4 h-4 transition-transform group-hover:translate-x-1" />
                   </a>
                 </Button>
               </div>
 
-              {/* Border Glow Effect */}
+              {/* Border Glow */}
               <div className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
-                <div className={`absolute inset-0 rounded-3xl bg-gradient-to-r ${project.gradient} opacity-[0.08]`} />
+                <div className={`absolute inset-0 rounded-3xl bg-gradient-to-r ${project.gradient} opacity-10 animate-pulse`} />
               </div>
             </motion.div>
           ))}
@@ -278,12 +274,12 @@ const ProjectsSection = () => {
           transition={{ duration: 0.6, delay: 0.3 }}
           className="text-center mt-16"
         >
-          <Button 
+          <Button
             size="lg"
             className="bg-gradient-to-r from-primary to-secondary text-primary-foreground hover:opacity-90 glow-cyan font-display text-base tracking-wider px-10 py-7"
             asChild
           >
-            <motion.a 
+            <motion.a
               href="#contact"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.98 }}
