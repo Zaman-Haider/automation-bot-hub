@@ -24,6 +24,7 @@ const projects = [
     image: ecommerceImg,
     metrics: { recovered: '35%', messages: '10K+' },
     gradient: 'from-primary to-neon-blue',
+    demoUrl: 'https://whatsappbot.dukan.pk',
   },
   {
     title: 'WhatsApp Support Bot',
@@ -33,6 +34,7 @@ const projects = [
     image: whatsappImg,
     metrics: { queries: '500+/day', satisfaction: '95%' },
     gradient: 'from-secondary to-neon-pink',
+    demoUrl: 'https://whatsappbotfaysal.dukan.pk',
   },
   {
     title: 'Order Tracking System',
@@ -51,6 +53,7 @@ const projects = [
     image: hrImg,
     metrics: { screening: '1000+', timeSaved: '60%' },
     gradient: 'from-primary to-secondary',
+    demoUrl: 'https://wa.me/923064646464',
   },
   {
     title: 'Clinic Appointment Bot',
@@ -69,6 +72,7 @@ const projects = [
     image: emailImg,
     metrics: { openRate: '45%', conversion: '12%' },
     gradient: 'from-secondary to-primary',
+    demoUrl: 'https://outreach.dukan.pk',
   },
   {
     title: 'Real Estate Lead Bot',
@@ -80,13 +84,14 @@ const projects = [
     gradient: 'from-primary to-neon-pink',
   },
   {
-    title: 'Course Enrollment Bot',
-    category: 'Education',
-    description: 'Automated enrollment and fee reminder system for online education platform.',
-    icon: GraduationCap,
+    title: 'Food Ordering Bot',
+    category: 'Food & Beverage',
+    description: 'Conversational food ordering bot allowing customers to browse menus, place orders, and track delivery — all via WhatsApp.',
+    icon: ShoppingBag,
     image: educationImg,
-    metrics: { enrollments: '10K+', collection: '95%' },
+    metrics: { orders: '5K+/mo', satisfaction: '98%' },
     gradient: 'from-neon-pink to-secondary',
+    demoUrl: 'https://menubot.dukan.pk/dashboard',
   },
   {
     title: 'Invoice & Payment Bot',
@@ -96,6 +101,7 @@ const projects = [
     image: invoiceImg,
     metrics: { invoices: '20K+', improved: '50%' },
     gradient: 'from-neon-blue to-secondary',
+    demoUrl: 'https://whatsappbpt.dukan.pk',
   },
   // {
   //   title: 'AI Knowledge Base',
@@ -245,17 +251,31 @@ const ProjectsSection = () => {
                   ))}
                 </div>
 
-                {/* CTA */}
-                <Button
-                  variant="outline"
-                  className="w-full border-2 border-gradient-to-r from-primary to-secondary hover:from-neon-blue hover:to-neon-pink text-primary font-display text-sm tracking-wider transition-all duration-300 py-3"
-                  asChild
-                >
-                  <a href="#contact" className="flex items-center justify-center gap-2">
-                    Request Similar Bot
-                    <ExternalLink className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-                  </a>
-                </Button>
+                {/* CTA Buttons */}
+                <div className="flex flex-col gap-3">
+                  {project.demoUrl && (
+                    <Button
+                      size="sm"
+                      className={`w-full bg-gradient-to-r ${project.gradient} text-white font-display text-sm tracking-wider transition-all duration-300 py-3 shadow-md hover:shadow-lg hover:opacity-90`}
+                      asChild
+                    >
+                      <a href={project.demoUrl} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2">
+                        🚀 Live Demo
+                        <ExternalLink className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                      </a>
+                    </Button>
+                  )}
+                  <Button
+                    variant="outline"
+                    className="w-full border-2 border-gradient-to-r from-primary to-secondary hover:from-neon-blue hover:to-neon-pink text-primary font-display text-sm tracking-wider transition-all duration-300 py-3"
+                    asChild
+                  >
+                    <a href="#contact" className="flex items-center justify-center gap-2">
+                      Request Similar Bot
+                      <ExternalLink className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                    </a>
+                  </Button>
+                </div>
               </div>
 
               {/* Border Glow */}
